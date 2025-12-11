@@ -32,5 +32,3 @@ export interface CoverageRequest {
     };
   };
 }
-
-//export {};

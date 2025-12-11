@@ -46,5 +46,3 @@ export class CoverageAPIService {
     }
   }
 }
-
-//module.exports = { CoverageAPIService };
