@@ -17,6 +17,7 @@ build/
 *.swp
 *.swo
 *~
+.mvn
 .DS_Store
 .DS_Store?
 ._*
