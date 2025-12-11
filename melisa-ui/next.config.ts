@@ -1,15 +1,25 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  distDir: 'out',
+  /* config options here */
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+    ],
   },
-  trailingSlash: true,
-  typescript: {
-    ignoreBuildErrors: true,
-  }
+  experimental: {
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
+  },
 };
 
 export default nextConfig;
