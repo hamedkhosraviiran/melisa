@@ -30,6 +30,33 @@ const COVERAGE_COLORS = {
   lines: '#FF8042'
 } as const;
 
+// Helper functions for safe formatting
+const formatCoveragePercentage = (value: number | undefined): string => {
+  return `${(value || 0).toFixed(1)}%`;
+};
+
+const formatTestCount = (value: number | undefined): string => {
+  return `${value || 0} tests`;
+};
+
+const formatDateForChart = (dateString: string | undefined): string => {
+  if (!dateString) return 'Unknown date';
+  try {
+    return format(new Date(dateString), 'MMM dd');
+  } catch {
+    return dateString;
+  }
+};
+
+const formatDateForTooltip = (dateString: string | undefined): string => {
+  if (!dateString) return 'Date: Unknown';
+  try {
+    return `Date: ${format(new Date(dateString), 'PPP')}`;
+  } catch {
+    return `Date: ${dateString}`;
+  }
+};
+
 // کامپوننت wrapper برای ResponsiveContainer
 const ChartContainer = ({ children, height = 300 }: {
   children: React.ReactNode;
@@ -50,7 +77,7 @@ export function CoverageDashboard() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [timeRange, setTimeRange] = useState<number>(30);
-  const [chartKey, setChartKey] = useState<number>(0); // برای force re-render charts
+  const [chartKey, setChartKey] = useState<number>(0);
 
   const [isPending, startTransition] = useTransition();
 
@@ -423,18 +450,12 @@ export function CoverageDashboard() {
                       <XAxis
                         dataKey="date"
                         tick={{ fontSize: 12 }}
-                        tickFormatter={(value) => {
-                          try {
-                            return format(new Date(value), 'MMM dd');
-                          } catch {
-                            return value;
-                          }
-                        }}
+                        tickFormatter={formatDateForChart}
                       />
                       <YAxis
                         domain={[0, 100]}
                         tick={{ fontSize: 12 }}
-                        tickFormatter={(value) => `${value}%`}
+                        tickFormatter={(value: number) => `${value}%`}
                       />
                       <Tooltip
                         contentStyle={{
@@ -443,8 +464,8 @@ export function CoverageDashboard() {
                           borderRadius: '8px',
                           boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
                         }}
-                        formatter={(value: number) => [`${value.toFixed(1)}%`, 'Coverage']}
-                        labelFormatter={(label) => `Date: ${format(new Date(label), 'PPP')}`}
+                        formatter={(value: number | undefined) => [formatCoveragePercentage(value), 'Coverage']}
+                        labelFormatter={formatDateForTooltip}
                       />
                       <Legend />
                       <Line
@@ -525,7 +546,7 @@ export function CoverageDashboard() {
                         dataKey="value"
                         labelLine={false}
                         label={({ name, percent }) =>
-                          `${name}: ${(percent * 100).toFixed(1)}%`
+                          `${name}: ${((percent || 0) * 100).toFixed(1)}%`
                         }
                       >
                         {testResultsData.map((entry, index) => (
@@ -533,7 +554,7 @@ export function CoverageDashboard() {
                         ))}
                       </Pie>
                       <Tooltip
-                        formatter={(value: number) => [`${value} tests`, 'Count']}
+                        formatter={(value: number | undefined) => [formatTestCount(value), 'Count']}
                         contentStyle={{
                           backgroundColor: 'white',
                           border: '1px solid #e5e7eb',
@@ -567,7 +588,7 @@ export function CoverageDashboard() {
                       type="number"
                       domain={[0, 100]}
                       tick={{ fontSize: 12 }}
-                      tickFormatter={(value) => `${value}%`}
+                      tickFormatter={(value: number) => `${value}%`}
                     />
                     <YAxis
                       type="category"
@@ -576,7 +597,7 @@ export function CoverageDashboard() {
                       tick={{ fontSize: 12 }}
                     />
                     <Tooltip
-                      formatter={(value: number) => [`${value.toFixed(1)}%`, 'Coverage']}
+                      formatter={(value: number | undefined) => [formatCoveragePercentage(value), 'Coverage']}
                       contentStyle={{
                         backgroundColor: 'white',
                         border: '1px solid #e5e7eb',

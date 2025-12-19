@@ -5,7 +5,8 @@ import type {
   CoverageRequest,
   CoverageSubmissionResponse,
   PaginationParams,
-  DateRangeParams
+  DateRangeParams,
+  CoverageTrendDTO
 } from '@/types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
