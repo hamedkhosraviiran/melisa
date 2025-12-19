@@ -112,31 +112,44 @@ export class CoverageParser {
     };
   }
 
-private static parseTestResults(testResultsPath: string = './test-results.json') {
+private static parseTestResults() {
   try {
-    // Read Jest test results if available
-    if (fs.existsSync(testResultsPath)) {
-      const testResults = JSON.parse(fs.readFileSync(testResultsPath, 'utf-8'));
-      return {
-        total: testResults.numTotalTests || 0,
-        passed: testResults.numPassedTests || 0,
-        failed: testResults.numFailedTests || 0
-      };
-    }
-        const summaryPath = './coverage/coverage-summary.json';
+    // Jest's json-summary reporter creates this file
+    const summaryPath = './coverage/coverage-summary.json';
+
     if (fs.existsSync(summaryPath)) {
+      console.log(`📊 Reading test results from: ${summaryPath}`);
       const summary = JSON.parse(fs.readFileSync(summaryPath, 'utf-8'));
-      return {
-        total: summary.total?.tests?.total || 0,
-        passed: summary.total?.tests?.passed || 0,
-        failed: summary.total?.tests?.failed || 0
-      };
+
+      // The json-summary format has a 'total' object with test counts
+      if (summary.total && summary.total.tests) {
+        return {
+          total: summary.total.tests.total || 0,
+          passed: summary.total.tests.passed || 0,
+          failed: summary.total.tests.failed || 0
+        };
+      }
     }
-    
-    console.warn('No test results found, using defaults');
+
+    const testResultsPath = './test-results.json';
+    if (fs.existsSync(testResultsPath)) {
+      console.log(`📊 Reading test results from: ${testResultsPath}`);
+      const testResults = JSON.parse(fs.readFileSync(testResultsPath, 'utf-8'));
+
+      if (testResults.numTotalTests !== undefined) {
+        return {
+          total: testResults.numTotalTests || 0,
+          passed: testResults.numPassedTests || 0,
+          failed: testResults.numFailedTests || 0
+        };
+      }
+    }
+
+    console.warn('⚠️ No test results found. Run tests with coverage first.');
     return { total: 0, passed: 0, failed: 0 };
+
   } catch (error) {
-    console.error('Error parsing test results:', error);
+    console.error('❌ Error parsing test results:', error);
     return { total: 0, passed: 0, failed: 0 };
   }
 }
