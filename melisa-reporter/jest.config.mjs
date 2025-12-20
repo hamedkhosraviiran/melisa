@@ -20,7 +20,22 @@ export default {
       statements: 0,
     },
   },
-  reporters: ['default'],
+
+  testResultsProcessor: 'jest-sonar-reporter',
+
+  reporters: [
+    'default',
+    ['jest-junit', {
+      outputDirectory: 'test-results',
+      outputName: 'junit.xml'
+    }],
+    ['jest-html-reporter', {
+      pageTitle: 'Test Report',
+      outputPath: 'test-results/test-report.html',
+      includeFailureMsg: true,
+      includeConsoleLog: true
+    }]
+  ],
 
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapping: {
