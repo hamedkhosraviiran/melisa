@@ -7,8 +7,9 @@
     "build": "tsc",
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "test:json": "jest --json --outputFile=test-results.json",
     "send-coverage": "ts-node scripts/send-coverage.ts",
-    "test:full": "npm run test:coverage && npm run send-coverage",
+    "test:full": "npm run test:coverage && npm run test:json && npm run send-coverage",
     "dev": "ts-node src/sum.ts",
     "test:watch": "jest --watch"
   },

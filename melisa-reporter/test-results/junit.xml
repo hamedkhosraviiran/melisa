@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="8" failures="0" errors="0" time="0.941">
+  <testsuite name="Counter Component" errors="0" failures="0" skipped="0" timestamp="2025-12-19T17:08:14" time="0.695" tests="5">
+    <testcase classname="Counter Component renders with initial value" name="Counter Component renders with initial value" time="0.012">
+    </testcase>
+    <testcase classname="Counter Component increments count when increment button is clicked" name="Counter Component increments count when increment button is clicked" time="0.003">
+    </testcase>
+    <testcase classname="Counter Component decrements count when decrement button is clicked" name="Counter Component decrements count when decrement button is clicked" time="0.002">
+    </testcase>
+    <testcase classname="Counter Component resets count when reset button is clicked" name="Counter Component resets count when reset button is clicked" time="0.002">
+    </testcase>
+    <testcase classname="Counter Component shows warning message when count exceeds 10" name="Counter Component shows warning message when count exceeds 10" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Math functions" errors="0" failures="0" skipped="0" timestamp="2025-12-19T17:08:15" time="0.044" tests="3">
+    <testcase classname="Math functions multiplies two numbers correctly" name="Math functions multiplies two numbers correctly" time="0">
+    </testcase>
+    <testcase classname="Math functions divides two numbers correctly" name="Math functions divides two numbers correctly" time="0">
+    </testcase>
+    <testcase classname="Math functions throws error when dividing by zero" name="Math functions throws error when dividing by zero" time="0.002">
+    </testcase>
+  </testsuite>
+</testsuites>
